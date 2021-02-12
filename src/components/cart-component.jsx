@@ -5,10 +5,10 @@ import {Link} from "react-router-dom";
 
 const Cart = (props) => {
   const {offer} = props;
-  const [foo, woo] = React.useState(false);
+  const [hover, setHover] = React.useState(false);
 
-  const toggleMouse = () => woo(!foo);
-  const classHover = () => foo === true ? `cities__place-card place-card` : `cities__place-card`;
+  const toggleMouse = () => setHover(!hover);
+  const classHover = () => hover === true ? `cities__place-card place-card` : `cities__place-card`;
 
   return (
     <article className={classHover()} onMouseEnter={toggleMouse} onMouseLeave={toggleMouse}>
