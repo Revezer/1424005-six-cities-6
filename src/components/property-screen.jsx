@@ -1,6 +1,12 @@
 import React from 'react';
+import {useParams} from 'react-router-dom';
+import PropTypes from 'prop-types';
 
-const Property = () => {
+const Property = (props) => {
+  const {offers} = props;
+  const {id} = useParams();
+  const offer = offers.find((item) => +item.id === +id);
+
   return (
     <div className="page">
       <header className="header">
@@ -84,7 +90,7 @@ const Property = () => {
                 </li>
               </ul>
               <div className="property__price">
-                <b className="property__price-value">€120</b>
+                <b className="property__price-value">€{offer.price}</b>
                 <span className="property__price-text">&nbsp;night</span>
               </div>
               <div className="property__inside">
@@ -317,6 +323,10 @@ const Property = () => {
       </main>
     </div>
   );
+};
+
+Property.propTypes = {
+  offers: PropTypes.array.isRequired,
 };
 
 export default Property;
