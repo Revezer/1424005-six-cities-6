@@ -8,7 +8,6 @@ const FormComment = () => {
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    console.log(newComment);
   };
 
   const handleClickRating = (evt) => {
