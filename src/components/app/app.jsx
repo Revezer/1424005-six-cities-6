@@ -8,6 +8,7 @@ import PropertyComponent from '../property-screen';
 
 const App = (props) => {
   const {offers} = props;
+  const {reviews} = props;
 
   return (
     <BrowserRouter>
@@ -22,7 +23,7 @@ const App = (props) => {
           <FavoritesComponent offers={offers.filter((offer) => offer.is_favorite === true)} />
         </Route>
         <Route exact path="/offer/:id">
-          <PropertyComponent offers={offers} />
+          <PropertyComponent offers={offers} reviews={reviews} />
         </Route>
         <Route
           render={() => (
@@ -43,6 +44,7 @@ const App = (props) => {
 
 App.propTypes = {
   offers: PropTypes.array.isRequired,
+  reviews: PropTypes.array.isRequired,
 };
 
 export default App;
