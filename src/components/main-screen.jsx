@@ -1,11 +1,9 @@
 import React from 'react';
-import CartComponent from './cart-component';
 import PropTypes from 'prop-types';
-
-const names = [`zona-1`, `zona-2`, `zona-3`, `zona-4`, `zona-5`];
+import ListOffersComponent from './list-of-offers-component';
 
 const Main = (props) => {
-  const {cardsCount} = props;
+  const {offers} = props;
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -68,44 +66,14 @@ const Main = (props) => {
             </ul>
           </section>
         </div>
-        <div className="cities">
-          <div className="cities__places-container container">
-            <section className="cities__places places">
-              <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">${cardsCount} places to stay in Amsterdam</b>
-              <form className="places__sorting" action="#" method="get">
-                <span className="places__sorting-caption">Sort by</span>
-                <span className="places__sorting-type" tabIndex={0}>
-                  Popular
-                  <svg className="places__sorting-arrow" width={7} height={4}>
-                    <use xlinkHref="#icon-arrow-select" />
-                  </svg>
-                </span>
-                <ul className="places__options places__options--custom places__options--opened">
-                  <li className="places__option places__option--active" tabIndex={0}>Popular</li>
-                  <li className="places__option" tabIndex={0}>Price: low to high</li>
-                  <li className="places__option" tabIndex={0}>Price: high to low</li>
-                  <li className="places__option" tabIndex={0}>Top rated first</li>
-                </ul>
-              </form>
-              <div className="cities__places-list places__list tabs__content">
-                {
-                  names.map((name, index) => <CartComponent key={name + index} />)
-                }
-              </div>
-            </section>
-            <div className="cities__right-section">
-              <section className="cities__map map" />
-            </div>
-          </div>
-        </div>
+        <ListOffersComponent offers={offers} />
       </main>
     </div>
   );
 };
 
 Main.propTypes = {
-  cardsCount: PropTypes.number.isRequired
+  offers: PropTypes.array.isRequired,
 };
 
 export default Main;

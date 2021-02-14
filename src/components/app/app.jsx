@@ -7,22 +7,23 @@ import LoginComponent from '../login-screen';
 import PropertyComponent from '../property-screen';
 
 const App = (props) => {
-  const {cardsCount} = props;
+  const {offers} = props;
+  const {reviews} = props;
 
   return (
     <BrowserRouter>
       <Switch>
         <Route exact path="/">
-          <MainComponent cardsCount={cardsCount} />
+          <MainComponent offers={offers} />
         </Route>
         <Route exact path="/login">
           <LoginComponent />
         </Route>
         <Route exact path="/favorites">
-          <FavoritesComponent />
+          <FavoritesComponent offers={offers.filter((offer) => offer.is_favorite === true)} />
         </Route>
         <Route exact path="/offer/:id">
-          <PropertyComponent />
+          <PropertyComponent offers={offers} reviews={reviews} />
         </Route>
         <Route
           render={() => (
@@ -42,7 +43,8 @@ const App = (props) => {
 };
 
 App.propTypes = {
-  cardsCount: PropTypes.number.isRequired,
+  offers: PropTypes.array.isRequired,
+  reviews: PropTypes.array.isRequired,
 };
 
 export default App;
