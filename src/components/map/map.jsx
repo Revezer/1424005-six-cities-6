@@ -36,8 +36,7 @@ const Map = ({city, points}) => {
       {
         icon: customIcon
       })
-      .addTo(mapRef.current)
-      .bindPopup(point.name);
+      .addTo(mapRef.current);
 
       return () => {
         mapRef.current.remove();

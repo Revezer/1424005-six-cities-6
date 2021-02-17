@@ -12,7 +12,6 @@ const city = {
 const ListOffers = (props) => {
   const {offers} = props;
   const points = offers.map((offer) => offer.location);
-  console.log(points);
   return (
     <div className="cities">
       <div className="cities__places-container container">
