@@ -2,10 +2,9 @@ import React, {useEffect, useRef} from 'react';
 import leaflet from 'leaflet';
 import PropTypes from 'prop-types';
 
-import "leaflet/dist/leaflet-src";
+import "leaflet/dist/leaflet.css";
 
 const Map = ({city, points}) => {
-  console.log(city, points);
   const mapRef = useRef();
 
   useEffect(() => {
@@ -16,6 +15,8 @@ const Map = ({city, points}) => {
       },
       zoom: city.zoom
     });
+
+    console.log(mapRef.current);
 
     leaflet
       .tileLayer(`https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png`, {
@@ -45,7 +46,7 @@ const Map = ({city, points}) => {
   }, []);
 
   return (
-    <div id="map" ref={mapRef}></div>
+    <div id='map' ref={mapRef} style={{height: `100%`}}></div>
   );
 };
 
