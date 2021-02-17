@@ -8,7 +8,7 @@ const Map = ({city, points}) => {
   const mapRef = useRef();
 
   useEffect(() => {
-    mapRef.current = leaflet.map(`map`, {
+    const map = leaflet.map(mapRef.current, {
       center: {
         lat: city.latitude,
         lon: city.longitude
@@ -20,7 +20,7 @@ const Map = ({city, points}) => {
       .tileLayer(`https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png`, {
         attribution: `&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>`
       })
-      .addTo(mapRef.current);
+      .addTo(map);
 
     points.forEach((point) => {
       const customIcon = leaflet.icon({
@@ -35,16 +35,16 @@ const Map = ({city, points}) => {
       {
         icon: customIcon
       })
-      .addTo(mapRef.current);
+      .addTo(map);
 
       return () => {
-        mapRef.current.remove();
+        map.remove();
       };
     });
   }, []);
 
   return (
-    <div id='map' ref={mapRef} style={{height: `100%`}}></div>
+    <div ref={mapRef} style={{height: `100%`}}></div>
   );
 };
 
