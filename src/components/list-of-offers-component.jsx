@@ -1,9 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import CartComponent from './cart-component';
+import Map from './map/map';
+
+const city = {
+  "latitude": 52.370216,
+  "longitude": 4.895168,
+  "zoom": 10
+};
 
 const ListOffers = (props) => {
   const {offers} = props;
+  const points = offers.map((offer) => offer.location);
+  console.log(points);
   return (
     <div className="cities">
       <div className="cities__places-container container">
@@ -32,7 +41,9 @@ const ListOffers = (props) => {
           </div>
         </section>
         <div className="cities__right-section">
-          <section className="cities__map map" />
+          <section className="cities__map map">
+            <Map city={city} points={points} />
+          </section>
         </div>
       </div>
     </div>
