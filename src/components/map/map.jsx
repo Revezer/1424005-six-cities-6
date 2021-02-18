@@ -36,11 +36,10 @@ const Map = ({city, points}) => {
         icon: customIcon
       })
       .addTo(map);
-
-      return () => {
-        map.remove();
-      };
     });
+    return () => {
+      map.remove();
+    };
   }, []);
 
   return (
