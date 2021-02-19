@@ -5,13 +5,12 @@ import {ActionCreator} from '../store/action';
 
 const CityButton = (props) => {
   const {city, citySelection, nameCity} = props;
-  console.log(city);
   const classActive = () => nameCity === city ? `locations__item-link tabs__item tabs__item--active` : `locations__item-link tabs__item`;
   return (
     <li className="locations__item">
       <a className={classActive()}
         onClick={() => {
-          citySelection({nameCity});
+          citySelection(nameCity);
         }}>
         <span>{nameCity}</span>
       </a>
@@ -37,5 +36,3 @@ const mapDispatchToProps = (dispatch) => ({
 
 export {CityButton};
 export default connect(mapStateToProps, mapDispatchToProps)(CityButton);
-
-
