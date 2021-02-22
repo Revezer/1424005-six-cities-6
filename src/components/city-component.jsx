@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import CityButton from './city-button-component';
 
 const CITY_NAME = [`Paris`, `Cologne`, `Brussels`, `Amsterdam`, `Hamburg`, `Dusseldorf`];

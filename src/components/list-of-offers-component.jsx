@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import CartComponent from './cart-component';
 import Map from './map/map';
+import {connect} from 'react-redux';
 
 const city = {
   "latitude": 52.370216,
@@ -53,4 +54,9 @@ ListOffers.propTypes = {
   offers: PropTypes.array.isRequired,
 };
 
-export default ListOffers;
+const mapStateToProps = (state) => ({
+  offers: state.offers,
+});
+
+export {ListOffers};
+export default connect(mapStateToProps, null)(ListOffers);

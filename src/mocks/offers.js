@@ -1,4 +1,4 @@
-export default [
+export const offers = [
   {
     "bedrooms": 3,
     "city": {
@@ -7,7 +7,7 @@ export default [
         "longitude": 4.895168,
         "zoom": 10
       },
-      "name": `Amsterdam`
+      "name": `Paris`
     },
     "description": `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.`,
     "goods": [`Heating`, `Kitchen`, `Cable TV`, `Washing machine`, `Coffee machine`, `Dishwasher`],
@@ -139,3 +139,9 @@ export default [
     "type": `apartment`
   }
 ];
+
+export const getOffers = (city) => {
+  return offers.filter((offer) => (
+    offer.city.name === city
+  ));
+};

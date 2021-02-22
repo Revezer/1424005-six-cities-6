@@ -1,11 +1,8 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import ListOffersComponent from './list-of-offers-component';
 import CityComponents from './city-component';
-import {connect} from 'react-redux';
 
-const Main = (props) => {
-  const {offers, city} = props;
+const Main = () => {
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -35,20 +32,10 @@ const Main = (props) => {
         <div className="tabs">
           <CityComponents />
         </div>
-        <ListOffersComponent offers={offers} />
+        <ListOffersComponent />
       </main>
     </div>
   );
 };
 
-Main.propTypes = {
-  offers: PropTypes.array.isRequired,
-  city: PropTypes.string.isRequired,
-};
-
-const mapStateToProps = (state) => ({
-  city: state.city,
-});
-
-export {Main};
-export default connect(mapStateToProps, null)(Main);
+export default Main;
