@@ -40,7 +40,7 @@ const Map = ({city, points}) => {
     return () => {
       map.remove();
     };
-  }, []);
+  });
 
   return (
     <div ref={mapRef} style={{height: `100%`}}></div>
