@@ -1,11 +1,23 @@
 import React, {useEffect, useRef} from 'react';
 import leaflet from 'leaflet';
 import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
 
 import "leaflet/dist/leaflet.css";
 
-const Map = ({city, points}) => {
+const city = {
+  "latitude": 52.370216,
+  "longitude": 4.895168,
+  "zoom": 10
+};
+
+const Map = (props) => {
+  const {offers, filteredCity} = props;
   const mapRef = useRef();
+  const filteredOffers = offers.filter((offer) => (
+    offer.city.name === filteredCity
+  ));
+  const points = filteredOffers.map((offer) => offer.location);
 
   useEffect(() => {
     const map = leaflet.map(mapRef.current, {
@@ -40,7 +52,7 @@ const Map = ({city, points}) => {
     return () => {
       map.remove();
     };
-  });
+  }, [city, points]);
 
   return (
     <div ref={mapRef} style={{height: `100%`}}></div>
@@ -48,6 +60,8 @@ const Map = ({city, points}) => {
 };
 
 Map.propTypes = {
+  offers: PropTypes.array.isRequired,
+  filteredCity: PropTypes.string.isRequired,
   city: PropTypes.shape({
     latitude: PropTypes.number.isRequired,
     longitude: PropTypes.number.isRequired,
@@ -59,4 +73,10 @@ Map.propTypes = {
   }))
 };
 
-export default Map;
+const mapStateToProps = (state) => ({
+  offers: state.offers,
+  filteredCity: state.city,
+});
+
+export {Map};
+export default connect(mapStateToProps, null)(Map);

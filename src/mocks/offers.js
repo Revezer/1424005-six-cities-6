@@ -1,4 +1,4 @@
-export const offers = [
+export default [
   {
     "bedrooms": 3,
     "city": {
@@ -139,9 +139,3 @@ export const offers = [
     "type": `apartment`
   }
 ];
-
-export const getOffers = (city) => {
-  return offers.filter((offer) => (
-    offer.city.name === city
-  ));
-};

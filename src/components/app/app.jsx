@@ -5,6 +5,7 @@ import {Switch, Route, BrowserRouter, Link} from 'react-router-dom';
 import FavoritesComponent from '../favorites-screen';
 import LoginComponent from '../login-screen';
 import PropertyComponent from '../property-screen';
+import {connect} from 'react-redux';
 
 const App = (props) => {
   const {offers} = props;
@@ -47,4 +48,10 @@ App.propTypes = {
   reviews: PropTypes.array.isRequired,
 };
 
-export default App;
+const mapStateToProps = (state) => ({
+  offers: state.offers,
+  reviews: state.review,
+});
+
+export {App};
+export default connect(mapStateToProps, null)(App);

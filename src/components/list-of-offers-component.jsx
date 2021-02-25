@@ -4,15 +4,11 @@ import CartComponent from './cart-component';
 import Map from './map/map';
 import {connect} from 'react-redux';
 
-const city = {
-  "latitude": 52.370216,
-  "longitude": 4.895168,
-  "zoom": 10
-};
-
 const ListOffers = (props) => {
-  const {offers} = props;
-  const points = offers.map((offer) => offer.location);
+  const {offers, city} = props;
+  const filteredOffers = offers.filter((offer) => (
+    offer.city.name === city
+  ));
   return (
     <div className="cities">
       <div className="cities__places-container container">
@@ -36,13 +32,13 @@ const ListOffers = (props) => {
           </form>
           <div className="cities__places-list places__list tabs__content">
             {
-              offers.map((offer, index) => <CartComponent key={offer + index} offer={offers[index]} />)
+              filteredOffers.map((offer, index) => <CartComponent key={offer + index} offer={offers[index]} />)
             }
           </div>
         </section>
         <div className="cities__right-section">
           <section className="cities__map map">
-            <Map city={city} points={points} />
+            <Map />
           </section>
         </div>
       </div>
@@ -52,10 +48,12 @@ const ListOffers = (props) => {
 
 ListOffers.propTypes = {
   offers: PropTypes.array.isRequired,
+  city: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   offers: state.offers,
+  city: state.city,
 });
 
 export {ListOffers};

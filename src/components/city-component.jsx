@@ -1,18 +1,28 @@
 import React from 'react';
 import CityButton from './city-button-component';
+import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
 
-const CITY_NAME = [`Paris`, `Cologne`, `Brussels`, `Amsterdam`, `Hamburg`, `Dusseldorf`];
-
-const City = () => {
+const City = (props) => {
+  const {cities} = props;
   return (
     <section className="locations container">
       <ul className="locations__list tabs__list">
         {
-          CITY_NAME.map((city, index) => <CityButton key={city + index} nameCity={city} />)
+          cities.map((city, index) => <CityButton key={city + index} nameCity={city} />)
         }
       </ul>
     </section>
   );
 };
 
-export default City;
+City.propTypes = {
+  cities: PropTypes.array.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  cities: state.cities,
+});
+
+export {City};
+export default connect(mapStateToProps, null)(City);
