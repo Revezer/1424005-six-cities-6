@@ -12,12 +12,9 @@ const city = {
 };
 
 const Map = (props) => {
-  const {offers, filteredCity} = props;
+  const {offers} = props;
   const mapRef = useRef();
-  const filteredOffers = offers.filter((offer) => (
-    offer.city.name === filteredCity
-  ));
-  const points = filteredOffers.map((offer) => offer.location);
+  const points = offers.map((offer) => offer.location);
 
   useEffect(() => {
     const map = leaflet.map(mapRef.current, {
@@ -61,7 +58,6 @@ const Map = (props) => {
 
 Map.propTypes = {
   offers: PropTypes.array.isRequired,
-  filteredCity: PropTypes.string.isRequired,
   city: PropTypes.shape({
     latitude: PropTypes.number.isRequired,
     longitude: PropTypes.number.isRequired,
@@ -74,8 +70,9 @@ Map.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  offers: state.offers,
-  filteredCity: state.city,
+  offers: state.offers.filter((offer) => (
+    offer.city.name === state.city
+  )),
 });
 
 export {Map};
