@@ -5,7 +5,6 @@ import {connect} from 'react-redux';
 
 const Favorites = (props) => {
   const {offers} = props;
-  console.log(offers);
   if (offers.length === 0) {
     return (
       <div className="page page--favorites-empty">
