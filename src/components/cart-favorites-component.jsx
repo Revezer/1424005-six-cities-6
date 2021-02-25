@@ -39,7 +39,7 @@ const CartFavorites = (props) => {
 };
 
 CartFavorites.propTypes = {
-  offer: PropTypes.array.isRequired,
+  offer: PropTypes.object.isRequired,
 };
 
 export default CartFavorites;
