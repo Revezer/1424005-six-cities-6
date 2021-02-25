@@ -5,10 +5,7 @@ import Map from './map/map';
 import {connect} from 'react-redux';
 
 const ListOffers = (props) => {
-  const {offers, city} = props;
-  const filteredOffers = offers.filter((offer) => (
-    offer.city.name === city
-  ));
+  const {offers} = props;
   return (
     <div className="cities">
       <div className="cities__places-container container">
@@ -32,7 +29,7 @@ const ListOffers = (props) => {
           </form>
           <div className="cities__places-list places__list tabs__content">
             {
-              filteredOffers.map((offer, index) => <CartComponent key={offer + index} offer={offers[index]} />)
+              offers.map((offer, index) => <CartComponent key={offer + index} offer={offers[index]} />)
             }
           </div>
         </section>
@@ -48,12 +45,12 @@ const ListOffers = (props) => {
 
 ListOffers.propTypes = {
   offers: PropTypes.array.isRequired,
-  city: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  offers: state.offers,
-  city: state.city,
+  offers: state.offers.filter((offer) => (
+    offer.city.name === state.city
+  )),
 });
 
 export {ListOffers};
