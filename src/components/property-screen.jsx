@@ -3,12 +3,12 @@ import {useParams} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import ReviewsComponent from './property-comments-component';
 import FormCommentComponent from './property-form-component';
+import {connect} from 'react-redux';
 
 const Property = (props) => {
-  const {offers} = props;
+  const {offers, reviews} = props;
   const {id} = useParams();
   const offer = offers.find((item) => +item.id === +id);
-  const {reviews} = props;
   const reviewsId = reviews.filter((review) => review.id === offer.id);
 
   return (
@@ -272,4 +272,10 @@ Property.propTypes = {
   reviews: PropTypes.array.isRequired,
 };
 
-export default Property;
+const mapStateToProps = (state) => ({
+  offers: state.offers,
+  reviews: state.review,
+});
+
+export {Property};
+export default connect(mapStateToProps, null)(Property);

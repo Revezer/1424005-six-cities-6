@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import CartFavoritesComponent from './cart-favorites-component';
+import {connect} from 'react-redux';
 
 const Favorites = (props) => {
   const {offers} = props;
@@ -121,4 +122,9 @@ Favorites.propTypes = {
   offers: PropTypes.array.isRequired,
 };
 
-export default Favorites;
+const mapStateToProps = (state) => ({
+  offers: state.offers.filter((offer) => offer.is_favorite === true)
+});
+
+export {Favorites};
+export default connect(mapStateToProps, null)(Favorites);

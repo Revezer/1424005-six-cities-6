@@ -2,16 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import CartComponent from './cart-component';
 import Map from './map/map';
-
-const city = {
-  "latitude": 52.370216,
-  "longitude": 4.895168,
-  "zoom": 10
-};
+import {connect} from 'react-redux';
 
 const ListOffers = (props) => {
   const {offers} = props;
-  const points = offers.map((offer) => offer.location);
   return (
     <div className="cities">
       <div className="cities__places-container container">
@@ -41,7 +35,7 @@ const ListOffers = (props) => {
         </section>
         <div className="cities__right-section">
           <section className="cities__map map">
-            <Map city={city} points={points} />
+            <Map />
           </section>
         </div>
       </div>
@@ -53,4 +47,11 @@ ListOffers.propTypes = {
   offers: PropTypes.array.isRequired,
 };
 
-export default ListOffers;
+const mapStateToProps = (state) => ({
+  offers: state.offers.filter((offer) => (
+    offer.city.name === state.city
+  )),
+});
+
+export {ListOffers};
+export default connect(mapStateToProps, null)(ListOffers);

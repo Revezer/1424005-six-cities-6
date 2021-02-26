@@ -5,25 +5,23 @@ import {Switch, Route, BrowserRouter, Link} from 'react-router-dom';
 import FavoritesComponent from '../favorites-screen';
 import LoginComponent from '../login-screen';
 import PropertyComponent from '../property-screen';
+import {connect} from 'react-redux';
 
-const App = (props) => {
-  const {offers} = props;
-  const {reviews} = props;
-
+const App = () => {
   return (
     <BrowserRouter>
       <Switch>
         <Route exact path="/">
-          <MainComponent offers={offers} />
+          <MainComponent />
         </Route>
         <Route exact path="/login">
           <LoginComponent />
         </Route>
         <Route exact path="/favorites">
-          <FavoritesComponent offers={offers.filter((offer) => offer.is_favorite === true)} />
+          <FavoritesComponent />
         </Route>
         <Route exact path="/offer/:id">
-          <PropertyComponent offers={offers} reviews={reviews} />
+          <PropertyComponent />
         </Route>
         <Route
           render={() => (
@@ -47,4 +45,10 @@ App.propTypes = {
   reviews: PropTypes.array.isRequired,
 };
 
-export default App;
+const mapStateToProps = (state) => ({
+  offers: state.offers,
+  reviews: state.review,
+});
+
+export {App};
+export default connect(mapStateToProps, null)(App);
