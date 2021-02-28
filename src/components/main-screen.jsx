@@ -1,8 +1,26 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import ListOffersComponent from './list-of-offers-component';
 import CityComponents from './city-component';
+import LoadingScreen from './loading-screen/loadging-screen';
+import {connect} from 'react-redux';
+import {fetchOffers} from '../store/api-action';
+import PropTypes from 'prop-types';
 
-const Main = () => {
+const Main = (props) => {
+  const {isDataLoaded, onLoadData} = props;
+
+  useEffect(() => {
+    if (!isDataLoaded) {
+      onLoadData();
+    }
+  }, [isDataLoaded]);
+
+  if (!isDataLoaded) {
+    return (
+      <LoadingScreen />
+    );
+  }
+
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -38,4 +56,20 @@ const Main = () => {
   );
 };
 
-export default Main;
+Main.propTypes = {
+  isDataLoaded: PropTypes.bool.isRequired,
+  onLoadData: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  isDataLoaded: state.isDataLoaded,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onLoadData() {
+    dispatch(fetchOffers());
+  },
+});
+
+export {Main};
+export default connect(mapStateToProps, mapDispatchToProps)(Main);
