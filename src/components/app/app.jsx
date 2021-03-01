@@ -6,6 +6,7 @@ import FavoritesComponent from '../favorites-screen';
 import LoginComponent from '../login-screen';
 import PropertyComponent from '../property-screen';
 import {connect} from 'react-redux';
+import PrivateRoute from '../private-route/private-route';
 
 const App = () => {
   return (
@@ -20,9 +21,8 @@ const App = () => {
         <Route exact path="/favorites">
           <FavoritesComponent />
         </Route>
-        <Route exact path="/offer/:id">
-          <PropertyComponent />
-        </Route>
+        <PrivateRoute exact path="/offer/:id" render={() => <PropertyComponent />}>
+        </PrivateRoute>
         <Route
           render={() => (
             <Fragment>
