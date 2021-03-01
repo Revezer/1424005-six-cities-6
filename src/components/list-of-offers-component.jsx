@@ -6,6 +6,7 @@ import {connect} from 'react-redux';
 
 const ListOffers = (props) => {
   const {offers} = props;
+
   return (
     <div className="cities">
       <div className="cities__places-container container">
