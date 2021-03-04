@@ -1,37 +1,16 @@
-import {ActionType} from './action';
-// import offer from '../mocks/offers';
-import reviews from '../mocks/reviews';
-import {AuthorizationStatus} from '../const';
+import {combineReducers} from 'redux';
+import {city} from './increment-city/increment-city';
+import {data} from './data/data';
+import {user} from './user/user';
 
-const initialState = {
-  city: `Paris`,
-  offers: [],
-  cities: [`Paris`, `Cologne`, `Brussels`, `Amsterdam`, `Hamburg`, `Dusseldorf`],
-  review: reviews,
-  authorizationStatus: AuthorizationStatus.NO_AUTH,
-  isDataLoaded: false,
+export const NameSpace = {
+  DATA: `DATA`,
+  CITY: `CITY`,
+  USER: `USER`
 };
 
-const reducer = (state = initialState, action) => {
-  switch (action.type) {
-    case ActionType.INCREMENT_CITY:
-      return {
-        ...state,
-        city: action.payload,
-      };
-    case ActionType.LOAD_OFFERS:
-      return {
-        ...state,
-        offers: action.payload,
-        isDataLoaded: true,
-      };
-    case ActionType.REQUIRED_AUTHORIZATION:
-      return {
-        ...state,
-        authorizationStatus: action.payload,
-      };
-  }
-  return state;
-};
-
-export {reducer};
+export default combineReducers({
+  [NameSpace.DATA]: data,
+  [NameSpace.CITY]: city,
+  [NameSpace.USER]: user,
+});

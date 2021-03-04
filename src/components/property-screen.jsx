@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import ReviewsComponent from './property-comments-component';
 import FormCommentComponent from './property-form-component';
 import {connect} from 'react-redux';
+import {getOffers, getReview} from '../store/data/selectors';
 
 const Property = (props) => {
   const {offers, reviews} = props;
@@ -273,8 +274,8 @@ Property.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  offers: state.offers,
-  reviews: state.review,
+  offers: getOffers(state),
+  reviews: getReview(state),
 });
 
 export {Property};
