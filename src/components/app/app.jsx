@@ -7,6 +7,7 @@ import LoginComponent from '../login-screen';
 import PropertyComponent from '../property-screen';
 import {connect} from 'react-redux';
 import PrivateRoute from '../private-route/private-route';
+import {getOffers, getReview} from '../../store/data/selectors';
 
 const App = () => {
   return (
@@ -46,8 +47,8 @@ App.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  offers: state.offers,
-  reviews: state.review,
+  offers: getOffers(state),
+  reviews: getReview(state),
 });
 
 export {App};

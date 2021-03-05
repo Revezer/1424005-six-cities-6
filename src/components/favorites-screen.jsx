@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import CartFavoritesComponent from './cart-favorites-component';
 import {connect} from 'react-redux';
+import {getOffers} from '../store/data/selectors';
 
 const Favorites = (props) => {
   const {offers} = props;
@@ -123,7 +124,7 @@ Favorites.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  offers: state.offers.filter((offer) => offer.is_favorite === true)
+  offers: getOffers(state).filter((offer) => offer.is_favorite === true)
 });
 
 export {Favorites};

@@ -2,6 +2,7 @@ import React from 'react';
 import CityButton from './city-button-component';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
+import {getCities} from '../store/increment-city/selectors';
 
 const City = (props) => {
   const {cities} = props;
@@ -21,7 +22,7 @@ City.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  cities: state.cities,
+  cities: getCities(state),
 });
 
 export {City};

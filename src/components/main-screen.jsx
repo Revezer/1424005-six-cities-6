@@ -5,6 +5,7 @@ import LoadingScreen from './loading-screen/loadging-screen';
 import {connect} from 'react-redux';
 import {fetchOffers} from '../store/api-action';
 import PropTypes from 'prop-types';
+import {getDataLoaded} from '../store/data/selectors';
 
 const Main = (props) => {
   const {isDataLoaded, onLoadData} = props;
@@ -62,7 +63,7 @@ Main.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  isDataLoaded: state.isDataLoaded,
+  isDataLoaded: getDataLoaded(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import CartComponent from './cart-component';
 import Map from './map/map';
 import {connect} from 'react-redux';
+import {getCityOffers} from '../store/data/selectors';
 
 const ListOffers = (props) => {
   const {offers} = props;
@@ -49,9 +50,7 @@ ListOffers.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  offers: state.offers.filter((offer) => (
-    offer.city.name === state.city
-  )),
+  offers: getCityOffers(state),
 });
 
 export {ListOffers};
