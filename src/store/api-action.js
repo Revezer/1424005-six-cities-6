@@ -1,4 +1,4 @@
-import {loadOffers, requireAuthorization} from "./action";
+import {loadOffers, requireAuthorization, loadComments} from "./action";
 import {AuthorizationStatus} from "../const";
 
 export const fetchOffers = () => (dispatch, _getState, api) => (
@@ -15,4 +15,9 @@ export const checkAuth = () => (dispatch, _getState, api) => (
 export const login = ({login: email, password}) => (dispatch, _getState, api) => (
   api.post(`/login`, {email, password})
     .then(() => dispatch(requireAuthorization(AuthorizationStatus.AUTH)))
+);
+
+export const comment = (id) => (dispatch, _getState, api) => (
+  api.get(`/comments/${id}`)
+    .then(({data}) => dispatch(loadComments(data)))
 );

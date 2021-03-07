@@ -3,6 +3,7 @@ export const ActionType = {
   // INCREMENT_PREFERENCES: `main/preferences`,
   LOAD_OFFERS: `main/loadOffers`,
   REQUIRED_AUTHORIZATION: `user/requiredAuthorization`,
+  LOAD_COMMENTS: `property-screen/loadComments`
 };
 
 export const citySelection = (city) => ({
@@ -18,4 +19,9 @@ export const loadOffers = (offers) => ({
 export const requireAuthorization = (status) => ({
   type: ActionType.REQUIRED_AUTHORIZATION,
   payload: status,
+});
+
+export const loadComments = (comments) => ({
+  type: ActionType.LOAD_COMMENTS,
+  payload: comments
 });

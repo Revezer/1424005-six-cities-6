@@ -1,10 +1,7 @@
 import React, {useEffect, useRef} from 'react';
 import leaflet from 'leaflet';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
 import "leaflet/dist/leaflet.css";
-import {getOffers} from '../../store/data/selectors';
-import {getCity} from '../../store/increment-city/selectors';
 
 const city = {
   "latitude": 52.370216,
@@ -65,14 +62,7 @@ Map.propTypes = {
   points: PropTypes.arrayOf(PropTypes.shape({
     latitude: PropTypes.number.isRequired,
     longitude: PropTypes.number.isRequired,
-  }))
+  })),
 };
 
-const mapStateToProps = (state) => ({
-  points: getOffers(state).filter((offer) => (
-    offer.city.name === getCity(state)
-  )).map((offer) => offer.location),
-});
-
-export {Map};
-export default connect(mapStateToProps, null)(Map);
+export default Map;
