@@ -1,12 +1,11 @@
 import {ActionType} from '../action';
-import reviews from '../../mocks/reviews';
 
 const initialState = {
   offers: [],
   isDataLoaded: false,
-  review: reviews,
   comments: [],
   isCommentsLoaded: false,
+  offerId: `0`
 };
 
 const data = (state = initialState, action) => {
@@ -22,6 +21,11 @@ const data = (state = initialState, action) => {
         ...state,
         comments: action.payload,
         isCommentsLoaded: true
+      };
+    case ActionType.OFFER_ID:
+      return {
+        ...state,
+        offerId: action.payload,
       };
   }
   return state;

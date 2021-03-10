@@ -3,29 +3,20 @@ import {useParams} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import ReviewsComponent from './property-comments-component';
 import FormCommentComponent from './property-form-component';
-import {connect} from 'react-redux';
-import {getOffers, getReview, getCommentLoaded, getComments} from '../store/data/selectors';
+import {connect, useSelector} from 'react-redux';
+import {getCommentLoaded, getComments, getOffer} from '../store/data/selectors';
 import {ONE_STARS_RATING} from '../const';
 import {comment} from '../store/api-action';
 import LoadingScreen from './loading-screen/loadging-screen';
 import Map from './map/map';
+import {offerId} from '../store/action';
 
 const Property = (props) => {
-  const {offers, reviews, isCommentsLoaded, onLoadComments, comments} = props;
+  const {isCommentsLoaded, onLoadComments, comments, onOfferId} = props;
   const {id} = useParams();
-  const offer = offers.find((item) => +item.id === +id);
-  const reviewsId = reviews.filter((review) => review.id === offer.id);
+  onOfferId(id);
+  const offer = useSelector(getOffer);
   const rating = offer.rating * ONE_STARS_RATING + `%`;
-  const imagesOffer = offer.images.map((image, index) =>
-    <div key={index} className="property__image-wrapper">
-      <img className="property__image" src={image} alt="Photo studio" />
-    </div>
-  );
-  const goods = offer.goods.map((good, index) =>
-    <li key={index} className="property__inside-item">
-      {good}
-    </li>
-  );
 
   useEffect(() => {
     if (!isCommentsLoaded) {
@@ -67,7 +58,13 @@ const Property = (props) => {
         <section className="property">
           <div className="property__gallery-container container">
             <div className="property__gallery">
-              {imagesOffer}
+              {
+                offer.images.map((image, index) =>
+                  <div key={index} className="property__image-wrapper">
+                    <img className="property__image" src={image} alt="Photo studio" />
+                  </div>
+                )
+              }
             </div>
           </div>
           <div className="property__container container">
@@ -111,7 +108,13 @@ const Property = (props) => {
               <div className="property__inside">
                 <h2 className="property__inside-title">Whats inside</h2>
                 <ul className="property__inside-list">
-                  {goods}
+                  {
+                    offer.goods.map((good, index) =>
+                      <li key={index} className="property__inside-item">
+                        {good}
+                      </li>
+                    )
+                  }
                 </ul>
               </div>
               <div className="property__host">
@@ -131,9 +134,9 @@ const Property = (props) => {
                 </div>
               </div>
               <section className="property__reviews reviews">
-                <h2 className="reviews__title">Reviews · <span className="reviews__amount">{reviewsId.length}</span></h2>
+                <h2 className="reviews__title">Reviews · <span className="reviews__amount">{comments.length}</span></h2>
                 {
-                  comments.map((review, index) => <ReviewsComponent key={review + index} review={reviewsId[index]} />)
+                  comments.map((review, index) => <ReviewsComponent key={review + index} review={comments[index]} />)
                 }
                 <FormCommentComponent />
               </section>
@@ -249,22 +252,20 @@ const Property = (props) => {
 };
 
 Property.propTypes = {
-  offers: PropTypes.array.isRequired,
-  reviews: PropTypes.array.isRequired,
   isCommentsLoaded: PropTypes.bool.isRequired,
   onLoadComments: PropTypes.func.isRequired,
   comments: PropTypes.array.isRequired,
+  onOfferId: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  offers: getOffers(state),
-  reviews: getReview(state),
   isCommentsLoaded: getCommentLoaded(state),
   comments: getComments(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onLoadComments: (id) => dispatch(comment(id))
+  onLoadComments: (id) => dispatch(comment(id)),
+  onOfferId: (id) => dispatch(offerId(id))
 });
 
 export {Property};
