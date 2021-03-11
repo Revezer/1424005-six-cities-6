@@ -18,9 +18,9 @@ export const getCityOffers = createSelector(
     }
 );
 
-export const getOffer = createSelector(
-    [getOffers, getOfferId],
-    (offers, id) => {
+export const getOffer = (id) => createSelector(
+    getOffers,
+    (offers) => {
       return offers.find((item) => +item.id === +id);
     }
 );

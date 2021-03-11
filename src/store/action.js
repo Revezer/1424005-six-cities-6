@@ -3,7 +3,6 @@ export const ActionType = {
   LOAD_OFFERS: `main/loadOffers`,
   REQUIRED_AUTHORIZATION: `user/requiredAuthorization`,
   LOAD_COMMENTS: `property-screen/loadComments`,
-  OFFER_ID: `property-screen/offerId`
 };
 
 export const citySelection = (city) => ({
@@ -24,9 +23,4 @@ export const requireAuthorization = (status) => ({
 export const loadComments = (comments) => ({
   type: ActionType.LOAD_COMMENTS,
   payload: comments
-});
-
-export const offerId = (id) => ({
-  type: ActionType.OFFER_ID,
-  payload: id
 });

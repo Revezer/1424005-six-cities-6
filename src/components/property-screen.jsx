@@ -9,13 +9,11 @@ import {ONE_STARS_RATING} from '../const';
 import {comment} from '../store/api-action';
 import LoadingScreen from './loading-screen/loadging-screen';
 import Map from './map/map';
-import {offerId} from '../store/action';
 
 const Property = (props) => {
-  const {isCommentsLoaded, onLoadComments, comments, onOfferId} = props;
+  const {isCommentsLoaded, onLoadComments, comments} = props;
   const {id} = useParams();
-  onOfferId(id);
-  const offer = useSelector(getOffer);
+  const offer = useSelector(getOffer(id));
   const rating = offer.rating * ONE_STARS_RATING + `%`;
 
   useEffect(() => {
@@ -255,7 +253,6 @@ Property.propTypes = {
   isCommentsLoaded: PropTypes.bool.isRequired,
   onLoadComments: PropTypes.func.isRequired,
   comments: PropTypes.array.isRequired,
-  onOfferId: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -265,7 +262,6 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   onLoadComments: (id) => dispatch(comment(id)),
-  onOfferId: (id) => dispatch(offerId(id))
 });
 
 export {Property};
