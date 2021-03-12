@@ -141,7 +141,7 @@ const Property = (props) => {
             </div>
           </div>
           <section className="property__map map" >
-            <Map points={Array.of(offer.city.location)}/>
+            <Map points={Array.of(offer)}/>
           </section>
         </section>
         <div className="container">

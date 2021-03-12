@@ -3,6 +3,8 @@ export const ActionType = {
   LOAD_OFFERS: `main/loadOffers`,
   REQUIRED_AUTHORIZATION: `user/requiredAuthorization`,
   LOAD_COMMENTS: `property-screen/loadComments`,
+  SORT_OFFERS: `main/sortOffers`,
+  SELECTED_OFFER: `main/cart-component`,
 };
 
 export const citySelection = (city) => ({
@@ -23,4 +25,14 @@ export const requireAuthorization = (status) => ({
 export const loadComments = (comments) => ({
   type: ActionType.LOAD_COMMENTS,
   payload: comments
+});
+
+export const sortOffers = (sort) => ({
+  type: ActionType.SORT_OFFERS,
+  payload: sort
+});
+
+export const selectedOffer = (idOffer) => ({
+  type: ActionType.SELECTED_OFFER,
+  payload: idOffer
 });

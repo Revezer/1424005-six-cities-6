@@ -1,17 +1,30 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Link} from "react-router-dom";
-
+import {ONE_STARS_RATING} from '../const';
+import {connect} from 'react-redux';
+import {selectedOffer} from '../store/action';
 
 const Cart = (props) => {
-  const {offer} = props;
+  const {offer, selectOffer} = props;
   const [hover, setHover] = React.useState(false);
+  const rating = offer.rating * ONE_STARS_RATING + `%`;
 
   const toggleMouse = () => setHover(!hover);
   const classHover = () => hover === true ? `cities__place-card place-card` : `cities__place-card`;
 
+  const mouseEnter = () => {
+    toggleMouse();
+    selectOffer(offer.id);
+  };
+
+  const mouseLeave = () => {
+    toggleMouse();
+    selectOffer(`falce`);
+  };
+
   return (
-    <article className={classHover()} onMouseEnter={toggleMouse} onMouseLeave={toggleMouse}>
+    <article className={classHover()} onMouseEnter={mouseEnter} onMouseLeave={mouseLeave}>
       <div className="cities__image-wrapper place-card__image-wrapper">
         <a href="#">
           <img className="place-card__image" src={offer.preview_image} alt="Place image" width={260} height={200} />
@@ -32,7 +45,7 @@ const Cart = (props) => {
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{width: `80%`}} />
+            <span style={{width: rating}} />
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
@@ -47,6 +60,14 @@ const Cart = (props) => {
 
 Cart.propTypes = {
   offer: PropTypes.object.isRequired,
+  selectOffer: PropTypes.func.isRequired,
 };
 
-export default Cart;
+const mapDispatchToProps = (dispatch) => ({
+  selectOffer(id) {
+    dispatch(selectedOffer(id));
+  }
+});
+
+export {Cart};
+export default connect(null, mapDispatchToProps)(Cart);
