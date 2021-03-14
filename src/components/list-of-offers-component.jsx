@@ -3,18 +3,19 @@ import PropTypes from 'prop-types';
 import CartComponent from './cart-component';
 import Map from './map/map';
 import {connect} from 'react-redux';
-import {getCityOffers, getOffers} from '../store/data/selectors';
+import {getOffersSort, getOffers} from '../store/data/selectors';
 import {getCity} from '../store/increment-city/selectors';
+import SortOffersComponent from './sort-offers-component';
 
 const ListOffers = (props) => {
-  const {offers, points} = props;
+  const {offers, points, city} = props;
 
   return (
     <div className="cities">
       <div className="cities__places-container container">
         <section className="cities__places places">
           <h2 className="visually-hidden">Places</h2>
-          <b className="places__found">{offers.length} places to stay in Amsterdam</b>
+          <b className="places__found">{offers.length} places to stay in {city}</b>
           <form className="places__sorting" action="#" method="get">
             <span className="places__sorting-caption">Sort by</span>
             <span className="places__sorting-type" tabIndex={0}>
@@ -23,12 +24,7 @@ const ListOffers = (props) => {
                 <use xlinkHref="#icon-arrow-select" />
               </svg>
             </span>
-            <ul className="places__options places__options--custom places__options--opened">
-              <li className="places__option places__option--active" tabIndex={0}>Popular</li>
-              <li className="places__option" tabIndex={0}>Price: low to high</li>
-              <li className="places__option" tabIndex={0}>Price: high to low</li>
-              <li className="places__option" tabIndex={0}>Top rated first</li>
-            </ul>
+            <SortOffersComponent />
           </form>
           <div className="cities__places-list places__list tabs__content">
             {
@@ -48,17 +44,16 @@ const ListOffers = (props) => {
 
 ListOffers.propTypes = {
   offers: PropTypes.array.isRequired,
-  points: PropTypes.arrayOf(PropTypes.shape({
-    latitude: PropTypes.number.isRequired,
-    longitude: PropTypes.number.isRequired,
-  }))
+  points: PropTypes.array.isRequired,
+  city: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  offers: getCityOffers(state),
+  offers: getOffersSort(state),
   points: getOffers(state).filter((offer) => (
     offer.city.name === getCity(state)
-  )).map((offer) => offer.location),
+  )).map((offer) => offer),
+  city: getCity(state),
 });
 
 export {ListOffers};

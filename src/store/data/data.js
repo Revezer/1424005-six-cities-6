@@ -5,6 +5,8 @@ const initialState = {
   isDataLoaded: false,
   comments: [],
   isCommentsLoaded: false,
+  sortType: `Popular`,
+  selectedOffer: `falce`,
 };
 
 const data = (state = initialState, action) => {
@@ -20,6 +22,16 @@ const data = (state = initialState, action) => {
         ...state,
         comments: action.payload,
         isCommentsLoaded: true
+      };
+    case ActionType.SORT_OFFERS:
+      return {
+        ...state,
+        sortType: action.payload
+      };
+    case ActionType.SELECTED_OFFER:
+      return {
+        ...state,
+        selectedOffer: action.payload
       };
   }
   return state;

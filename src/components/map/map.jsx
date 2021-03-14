@@ -2,15 +2,17 @@ import React, {useEffect, useRef} from 'react';
 import leaflet from 'leaflet';
 import PropTypes from 'prop-types';
 import "leaflet/dist/leaflet.css";
+import {connect} from 'react-redux';
+import {getSelectedOffer} from '../../store/data/selectors';
 
 const city = {
   "latitude": 52.370216,
   "longitude": 4.895168,
-  "zoom": 10
+  "zoom": `12`
 };
 
 const Map = (props) => {
-  const {points} = props;
+  const {points, coordinatesOffer} = props;
   const mapRef = useRef();
 
   useEffect(() => {
@@ -30,13 +32,13 @@ const Map = (props) => {
 
     points.forEach((point) => {
       const customIcon = leaflet.icon({
-        iconUrl: `./img/pin.svg`,
+        iconUrl: `${coordinatesOffer === point.id ? `./img/pin-active.svg` : `./img/pin.svg`}`,
         iconSize: [27, 39]
       });
 
       leaflet.marker({
-        lat: point.latitude,
-        lon: point.longitude
+        lat: point.location.latitude,
+        lon: point.location.longitude
       },
       {
         icon: customIcon
@@ -46,7 +48,7 @@ const Map = (props) => {
     return () => {
       map.remove();
     };
-  }, [city, points]);
+  }, [city, points, coordinatesOffer]);
 
   return (
     <div ref={mapRef} style={{height: `100%`}}></div>
@@ -59,10 +61,17 @@ Map.propTypes = {
     longitude: PropTypes.number.isRequired,
     zoom: PropTypes.number.isRequired,
   }),
-  points: PropTypes.arrayOf(PropTypes.shape({
-    latitude: PropTypes.number.isRequired,
-    longitude: PropTypes.number.isRequired,
-  })),
+  points: PropTypes.array.isRequired,
+  coordinatesOffer: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.bool,
+    PropTypes.string,
+  ]).isRequired,
 };
 
-export default Map;
+const mapStateToProps = (state) => ({
+  coordinatesOffer: getSelectedOffer(state),
+});
+
+export {Map};
+export default connect(mapStateToProps, null)(Map);
