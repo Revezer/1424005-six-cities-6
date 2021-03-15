@@ -17,7 +17,12 @@ export const login = ({login: email, password}) => (dispatch, _getState, api) =>
     .then(() => dispatch(requireAuthorization(AuthorizationStatus.AUTH)))
 );
 
-export const comment = (id) => (dispatch, _getState, api) => (
+export const commentsLoad = (id) => (dispatch, _getState, api) => (
   api.get(`/comments/${id}`)
     .then(({data}) => dispatch(loadComments(data)))
+);
+
+export const addReview = ({id, comment, rating}) => (dispatch, _getState, api) => (
+  api.post(`/comments/${id}`, {comment, rating})
+  .then(({data}) => dispatch(loadComments(data)))
 );
