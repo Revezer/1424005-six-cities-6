@@ -1,6 +1,11 @@
 import React, {useState} from "react";
+import PropTypes from "prop-types";
+import {connect} from "react-redux";
+import {addReview} from "../store/api-action";
 
-const FormComment = () => {
+const FormComment = (props) => {
+  const {id, onSubmit} = props;
+
   const [newComment, setNewComment] = useState({
     rating: 0,
     review: ``,
@@ -8,6 +13,11 @@ const FormComment = () => {
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
+    onSubmit({
+      id,
+      comment: newComment.review,
+      rating: newComment.rating
+    });
   };
 
   const handleClickRating = (evt) => {
@@ -85,4 +95,16 @@ const FormComment = () => {
   );
 };
 
-export default FormComment;
+FormComment.propTypes = {
+  id: PropTypes.number.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  onSubmit(data) {
+    dispatch(addReview(data));
+  }
+});
+
+export {FormComment};
+export default connect(null, mapDispatchToProps)(FormComment);

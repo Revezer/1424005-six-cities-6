@@ -6,7 +6,7 @@ import FormCommentComponent from './property-form-component';
 import {connect, useSelector} from 'react-redux';
 import {getCommentLoaded, getComments, getOffer} from '../store/data/selectors';
 import {ONE_STARS_RATING} from '../const';
-import {comment} from '../store/api-action';
+import {commentsLoad} from '../store/api-action';
 import LoadingScreen from './loading-screen/loadging-screen';
 import Map from './map/map';
 
@@ -136,7 +136,7 @@ const Property = (props) => {
                 {
                   comments.map((review, index) => <ReviewsComponent key={review + index} review={comments[index]} />)
                 }
-                <FormCommentComponent />
+                <FormCommentComponent id={offer.id} />
               </section>
             </div>
           </div>
@@ -261,7 +261,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onLoadComments: (id) => dispatch(comment(id)),
+  onLoadComments: (id) => dispatch(commentsLoad(id)),
 });
 
 export {Property};
