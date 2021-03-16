@@ -1,4 +1,4 @@
-import {loadOffers, requireAuthorization, loadComments} from "./action";
+import {loadOffers, requireAuthorization, loadComments, loadFavorite} from "./action";
 import {AuthorizationStatus} from "../const";
 
 export const fetchOffers = () => (dispatch, _getState, api) => (
@@ -24,5 +24,14 @@ export const commentsLoad = (id) => (dispatch, _getState, api) => (
 
 export const addReview = ({id, comment, rating}) => (dispatch, _getState, api) => (
   api.post(`/comments/${id}`, {comment, rating})
-  .then(({data}) => dispatch(loadComments(data)))
+    .then(({data}) => dispatch(loadComments(data)))
+);
+
+export const favoriteLoad = () => (dispatch, _getState, api) => (
+  api.get(`/favorite`)
+    .then(({data}) => dispatch(loadFavorite(data)))
+);
+
+export const changeStatus = (id, status) => (dispatch, _getState, api) => (
+  api.post(`/favorite/${id}/${status}`)
 );

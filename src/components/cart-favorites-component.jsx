@@ -1,8 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
+import {changeStatus, favoriteLoad} from '../store/api-action';
 
 const CartFavorites = (props) => {
-  const {offer} = props;
+  const {offer, onChangeStatus, onLoadFavorites} = props;
+  const favorite = offer.is_favorite ? 0 : 1;
+
   return (
     <article className="favorites__card place-card">
       <div className="favorites__image-wrapper place-card__image-wrapper">
@@ -16,7 +20,11 @@ const CartFavorites = (props) => {
             <b className="place-card__price-value">€{offer.price}</b>
             <span className="place-card__price-text">/&nbsp;night</span>
           </div>
-          <button className="place-card__bookmark-button place-card__bookmark-button--active button" type="button">
+          <button className="place-card__bookmark-button place-card__bookmark-button--active button" type="button"
+            onClick={() => {
+              onChangeStatus(offer.id, favorite);
+              onLoadFavorites();
+            }}>
             <svg className="place-card__bookmark-icon" width={18} height={19}>
               <use xlinkHref="#icon-bookmark" />
             </svg>
@@ -40,6 +48,16 @@ const CartFavorites = (props) => {
 
 CartFavorites.propTypes = {
   offer: PropTypes.object.isRequired,
+  onChangeStatus: PropTypes.func.isRequired,
+  onLoadFavorites: PropTypes.func.isRequired,
 };
 
-export default CartFavorites;
+const mapDispatchToProps = (dispatch) => ({
+  onChangeStatus(id, status) {
+    dispatch(changeStatus(id, status));
+  },
+  onLoadFavorites: () => dispatch(favoriteLoad()),
+});
+
+export {CartFavorites};
+export default connect(null, mapDispatchToProps)(CartFavorites);

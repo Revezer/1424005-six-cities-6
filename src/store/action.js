@@ -5,6 +5,7 @@ export const ActionType = {
   LOAD_COMMENTS: `property-screen/loadComments`,
   SORT_OFFERS: `main/sortOffers`,
   SELECTED_OFFER: `main/cart-component`,
+  LOAD_FAVORITES: `favorites-screen`,
 };
 
 export const citySelection = (city) => ({
@@ -35,4 +36,9 @@ export const sortOffers = (sort) => ({
 export const selectedOffer = (idOffer) => ({
   type: ActionType.SELECTED_OFFER,
   payload: idOffer
+});
+
+export const loadFavorite = (offers) => ({
+  type: ActionType.LOAD_FAVORITES,
+  payload: offers
 });

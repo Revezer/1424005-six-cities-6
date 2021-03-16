@@ -20,6 +20,8 @@ export const getCommentLoaded = (state) => state[NameSpace.DATA].isCommentsLoade
 export const getComments = (state) => state[NameSpace.DATA].comments;
 export const getSortType = (state) => state[NameSpace.DATA].sortType;
 export const getSelectedOffer = (state) => state[NameSpace.DATA].selectedOffer;
+export const getFavoritesLoaded = (state) => state[NameSpace.DATA].isFavoritesLoaded;
+export const getFavorites = (state) => state[NameSpace.DATA].favorites;
 
 export const getCityOffers = createSelector(
     [getOffers, getCity],

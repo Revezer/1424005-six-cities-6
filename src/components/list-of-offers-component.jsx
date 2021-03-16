@@ -6,9 +6,17 @@ import {connect} from 'react-redux';
 import {getOffersSort, getOffers} from '../store/data/selectors';
 import {getCity} from '../store/increment-city/selectors';
 import SortOffersComponent from './sort-offers-component';
+import MainEmptyComponent from './main-empty';
 
 const ListOffers = (props) => {
   const {offers, points, city} = props;
+
+  if (offers.length === 0) {
+    return (
+      <MainEmptyComponent />
+    );
+  }
+
 
   return (
     <div className="cities">

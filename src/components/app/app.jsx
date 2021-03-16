@@ -16,9 +16,8 @@ const App = () => {
         <Route exact path="/login">
           <LoginComponent />
         </Route>
-        <Route exact path="/favorites">
-          <FavoritesComponent />
-        </Route>
+        <PrivateRoute exact path="/favorites" render={() => <FavoritesComponent />}>
+        </PrivateRoute>
         <PrivateRoute exact path="/offer/:id" render={() => <PropertyComponent />}>
         </PrivateRoute>
         <Route
