@@ -7,7 +7,9 @@ import {favoriteLoad} from '../store/api-action';
 import LoadingScreen from './loading-screen/loadging-screen';
 
 const Favorites = (props) => {
-  const {offers, isFavoritesLoaded, onLoadFavorites, offersParis, offersCologne, offersBrussels, offersAmsterdam, offersHamburg, offersDusseldorf} = props;
+  const {offers, isFavoritesLoaded, onLoadFavorites} = props;
+
+  const Citys = [`Paris`, `Cologne`, `Brussels`, `Amsterdam`, `Hamburg`, `Dusseldorf`];
 
   useEffect(() => {
     if (!isFavoritesLoaded) {
@@ -21,10 +23,14 @@ const Favorites = (props) => {
     );
   }
 
+  const offerFavoryteCity = (nameCity) => {
+    return offers.filter((offer) => (offer.city.name === nameCity));
+  };
+
   const favoriteOffersCity = (offersCity, nameCity) => {
     return (
       offersCity.length > 0 ?
-        <li className="favorites__locations-items">
+        <li key={nameCity} className="favorites__locations-items">
           <div className="favorites__locations locations locations--current">
             <div className="locations__item">
               <a className="locations__item-link" href="#">
@@ -34,10 +40,10 @@ const Favorites = (props) => {
           </div>
           <div className="favorites__places">
             {
-              offersCity.map((name, index) => <CartFavoritesComponent key={name + index} offer={offersCity[index]} />)
+              offersCity.map((offer, index) => <CartFavoritesComponent key={offer.id + index} offer={offersCity[index]} />)
             }
           </div>
-        </li> : <div></div>
+        </li> : <div key={nameCity}></div>
     );
   };
 
@@ -114,12 +120,7 @@ const Favorites = (props) => {
             <section className="favorites">
               <h1 className="favorites__title">Saved listing</h1>
               <ul className="favorites__list">
-                {favoriteOffersCity(offersParis, `Paris`)}
-                {favoriteOffersCity(offersCologne, `Cologne`)}
-                {favoriteOffersCity(offersBrussels, `Brussels`)}
-                {favoriteOffersCity(offersAmsterdam, `Amsterdam`)}
-                {favoriteOffersCity(offersHamburg, `Hamburg`)}
-                {favoriteOffersCity(offersDusseldorf, `Dusseldorf`)}
+                {Citys.map((city) => favoriteOffersCity(offerFavoryteCity(city), city))}
               </ul>
             </section>
           </div>
@@ -141,12 +142,6 @@ Favorites.propTypes = {
 const mapStateToProps = (state) => ({
   isFavoritesLoaded: getFavoritesLoaded(state),
   offers: getFavorites(state),
-  offersParis: getFavorites(state).filter((offer) => (offer.city.name === `Paris`)),
-  offersCologne: getFavorites(state).filter((offer) => (offer.city.name === `Cologne`)),
-  offersBrussels: getFavorites(state).filter((offer) => (offer.city.name === `Brussels`)),
-  offersAmsterdam: getFavorites(state).filter((offer) => (offer.city.name === `Amsterdam`)),
-  offersHamburg: getFavorites(state).filter((offer) => (offer.city.name === `Hamburg`)),
-  offersDusseldorf: getFavorites(state).filter((offer) => (offer.city.name === `Dusseldorf`)),
 });
 
 const mapDispatchToProps = (dispatch) => ({
