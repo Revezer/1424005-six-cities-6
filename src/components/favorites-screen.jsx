@@ -1,15 +1,17 @@
 import React, {useEffect} from 'react';
 import PropTypes from 'prop-types';
-import CartFavoritesComponent from './cart-favorites-component';
-import {connect} from 'react-redux';
-import {getFavoritesLoaded, getFavorites} from '../store/data/selectors';
+import {connect, useSelector} from 'react-redux';
+import {getFavoritesLoaded, getFavorites, getOffersFavorytesCity} from '../store/data/selectors';
 import {favoriteLoad} from '../store/api-action';
 import LoadingScreen from './loading-screen/loadging-screen';
+import FavoritesOffersCityComponent from './favorites-offers-city';
+
+const CITIES = [`Paris`, `Cologne`, `Brussels`, `Amsterdam`, `Hamburg`, `Dusseldorf`];
 
 const Favorites = (props) => {
   const {offers, isFavoritesLoaded, onLoadFavorites} = props;
 
-  const Citys = [`Paris`, `Cologne`, `Brussels`, `Amsterdam`, `Hamburg`, `Dusseldorf`];
+  const offersFavorytesCity = CITIES.map((city) => <FavoritesOffersCityComponent key={city} offersCity={useSelector(getOffersFavorytesCity(city))} nameCity={city} />);
 
   useEffect(() => {
     if (!isFavoritesLoaded) {
@@ -22,30 +24,6 @@ const Favorites = (props) => {
       <LoadingScreen />
     );
   }
-
-  const offerFavoryteCity = (nameCity) => {
-    return offers.filter((offer) => (offer.city.name === nameCity));
-  };
-
-  const favoriteOffersCity = (offersCity, nameCity) => {
-    return (
-      offersCity.length > 0 ?
-        <li key={nameCity} className="favorites__locations-items">
-          <div className="favorites__locations locations locations--current">
-            <div className="locations__item">
-              <a className="locations__item-link" href="#">
-                <span>{nameCity}</span>
-              </a>
-            </div>
-          </div>
-          <div className="favorites__places">
-            {
-              offersCity.map((offer, index) => <CartFavoritesComponent key={offer.id + index} offer={offersCity[index]} />)
-            }
-          </div>
-        </li> : <div key={nameCity}></div>
-    );
-  };
 
   if (offers.length === 0) {
     return (
@@ -120,7 +98,9 @@ const Favorites = (props) => {
             <section className="favorites">
               <h1 className="favorites__title">Saved listing</h1>
               <ul className="favorites__list">
-                {Citys.map((city) => favoriteOffersCity(offerFavoryteCity(city), city))}
+                {
+                  offersFavorytesCity
+                }
               </ul>
             </section>
           </div>

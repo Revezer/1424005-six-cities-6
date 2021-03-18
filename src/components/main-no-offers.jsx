@@ -1,6 +1,6 @@
 import React from 'react';
 
-const mainEmpty = () => {
+const mainNoOffers = () => {
   return (
     <div className="cities">
       <div className="cities__places-container cities__places-container--empty container">
@@ -16,4 +16,4 @@ const mainEmpty = () => {
   );
 };
 
-export default mainEmpty;
+export default mainNoOffers;

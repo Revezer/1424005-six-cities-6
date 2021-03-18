@@ -55,3 +55,10 @@ export const getOffersSort = createSelector(
       return offers;
     }
 );
+
+export const getOffersFavorytesCity = (nameCity) => createSelector(
+    getFavorites,
+    (offers) => {
+      return offers.filter((offer) => (offer.city.name === nameCity));
+    }
+);
