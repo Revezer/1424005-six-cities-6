@@ -1,6 +1,6 @@
 import React from 'react';
 
-const mainNoOffers = () => {
+const MainNoOffers = () => {
   return (
     <div className="cities">
       <div className="cities__places-container cities__places-container--empty container">
@@ -16,4 +16,4 @@ const mainNoOffers = () => {
   );
 };
 
-export default mainNoOffers;
+export default MainNoOffers;
