@@ -7,6 +7,8 @@ const initialState = {
   isCommentsLoaded: false,
   sortType: `Popular`,
   selectedOffer: `falce`,
+  favorites: [],
+  isFavoritesLoaded: false,
 };
 
 const data = (state = initialState, action) => {
@@ -32,6 +34,12 @@ const data = (state = initialState, action) => {
       return {
         ...state,
         selectedOffer: action.payload
+      };
+    case ActionType.LOAD_FAVORITES:
+      return {
+        ...state,
+        favorites: action.payload,
+        isFavoritesLoaded: true,
       };
   }
   return state;

@@ -1,11 +1,30 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import PropTypes from 'prop-types';
-import CartFavoritesComponent from './cart-favorites-component';
-import {connect} from 'react-redux';
-import {getOffers} from '../store/data/selectors';
+import {connect, useSelector} from 'react-redux';
+import {getFavoritesLoaded, getFavorites, getOffersFavorytesCity} from '../store/data/selectors';
+import {favoriteLoad} from '../store/api-action';
+import LoadingScreen from './loading-screen/loadging-screen';
+import FavoritesOffersCityComponent from './favorites-offers-city';
+
+const CITIES = [`Paris`, `Cologne`, `Brussels`, `Amsterdam`, `Hamburg`, `Dusseldorf`];
 
 const Favorites = (props) => {
-  const {offers} = props;
+  const {offers, isFavoritesLoaded, onLoadFavorites} = props;
+
+  const offersFavorytesCity = CITIES.map((city) => <FavoritesOffersCityComponent key={city} offersCity={useSelector(getOffersFavorytesCity(city))} nameCity={city} />);
+
+  useEffect(() => {
+    if (!isFavoritesLoaded) {
+      onLoadFavorites();
+    }
+  }, [isFavoritesLoaded]);
+
+  if (!isFavoritesLoaded) {
+    return (
+      <LoadingScreen />
+    );
+  }
+
   if (offers.length === 0) {
     return (
       <div className="page page--favorites-empty">
@@ -79,32 +98,9 @@ const Favorites = (props) => {
             <section className="favorites">
               <h1 className="favorites__title">Saved listing</h1>
               <ul className="favorites__list">
-                <li className="favorites__locations-items">
-                  <div className="favorites__locations locations locations--current">
-                    <div className="locations__item">
-                      <a className="locations__item-link" href="#">
-                        <span>Amsterdam</span>
-                      </a>
-                    </div>
-                  </div>
-                  <div className="favorites__places">
-                    {
-                      offers.map((name, index) => <CartFavoritesComponent key={name + index} offer={offers[index]} />)
-                    }
-                  </div>
-                </li>
-                <li className="favorites__locations-items">
-                  <div className="favorites__locations locations locations--current">
-                    <div className="locations__item">
-                      <a className="locations__item-link" href="#">
-                        <span>Cologne</span>
-                      </a>
-                    </div>
-                  </div>
-                  <div className="favorites__places">
-
-                  </div>
-                </li>
+                {
+                  offersFavorytesCity
+                }
               </ul>
             </section>
           </div>
@@ -124,8 +120,13 @@ Favorites.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  offers: getOffers(state).filter((offer) => offer.is_favorite === true)
+  isFavoritesLoaded: getFavoritesLoaded(state),
+  offers: getFavorites(state),
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onLoadFavorites: () => dispatch(favoriteLoad()),
 });
 
 export {Favorites};
-export default connect(mapStateToProps, null)(Favorites);
+export default connect(mapStateToProps, mapDispatchToProps)(Favorites);
