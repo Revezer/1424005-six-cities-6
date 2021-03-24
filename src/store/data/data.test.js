@@ -2,7 +2,7 @@ import {data} from './data';
 import {ActionType} from '../action';
 import MockAdapter from 'axios-mock-adapter';
 import {createAPI} from '../../services/api';
-import {fetchOffers} from '../api-action';
+import {addReview, commentsLoad, favoriteLoad, fetchOffers} from '../api-action';
 
 const state = {
   offers: [],
@@ -151,6 +151,62 @@ describe(`Async operation work correctly`, () => {
         expect(dispatch).toHaveBeenNthCalledWith(1, {
           type: ActionType.LOAD_OFFERS,
           payload: [{id: 2}],
+        });
+      });
+  });
+  it(`Should make a correct API call to get /comments`, () => {
+    const apiMock = new MockAdapter(api);
+    const dispatch = jest.fn();
+    const fakeId = 1;
+    const fetchOffersLoaded = commentsLoad(fakeId);
+
+    apiMock
+      .onGet(`/comments/${fakeId}`)
+      .reply(200, [{id: 2}]);
+
+    return fetchOffersLoaded(dispatch, () => {}, api)
+      .then(() => {
+        expect(dispatch).toHaveBeenCalledTimes(1);
+        expect(dispatch).toHaveBeenNthCalledWith(1, {
+          type: ActionType.LOAD_COMMENTS,
+          payload: [{id: 2}],
+        });
+      });
+  });
+  it(`Should make a correct API call to post /comments`, () => {
+    const apiMock = new MockAdapter(api);
+    const dispatch = jest.fn();
+    const fakeComment = {id: 1, comment: `hi`, rating: 5};
+    const fetchOffersLoaded = addReview(fakeComment);
+
+    apiMock
+      .onPost(`/comments/${fakeComment.id}`)
+      .reply(200, [{id: 2}]);
+
+    return fetchOffersLoaded(dispatch, () => {}, api)
+      .then(() => {
+        expect(dispatch).toHaveBeenCalledTimes(1);
+        expect(dispatch).toHaveBeenNthCalledWith(1, {
+          type: ActionType.LOAD_COMMENTS,
+          payload: [{id: 2}],
+        });
+      });
+  });
+  it(`Should make a correct API call to /favorite`, () => {
+    const apiMock = new MockAdapter(api);
+    const dispatch = jest.fn();
+    const fetchOffersLoaded = favoriteLoad();
+
+    apiMock
+      .onGet(`/favorite`)
+      .reply(200, [{id: 3}]);
+
+    return fetchOffersLoaded(dispatch, () => {}, api)
+      .then(() => {
+        expect(dispatch).toHaveBeenCalledTimes(1);
+        expect(dispatch).toHaveBeenNthCalledWith(1, {
+          type: ActionType.LOAD_FAVORITES,
+          payload: [{id: 3}],
         });
       });
   });

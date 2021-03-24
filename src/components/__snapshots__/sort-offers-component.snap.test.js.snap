@@ -1,0 +1,34 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Should SortOffers render correctly 1`] = `
+<div>
+  <ul
+    class="places__options places__options--custom places__options--opened"
+  >
+    <li
+      class="places__option"
+      tabindex="0"
+    >
+      Popular
+    </li>
+    <li
+      class="places__option"
+      tabindex="0"
+    >
+      Price: low to high
+    </li>
+    <li
+      class="places__option"
+      tabindex="0"
+    >
+      Price: high to low
+    </li>
+    <li
+      class="places__option"
+      tabindex="0"
+    >
+      Top rated first
+    </li>
+  </ul>
+</div>
+`;
