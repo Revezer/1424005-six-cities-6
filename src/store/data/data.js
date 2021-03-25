@@ -6,7 +6,7 @@ const initialState = {
   comments: [],
   isCommentsLoaded: false,
   sortType: `Popular`,
-  selectedOffer: `falce`,
+  selectedOffer: `false`,
   favorites: [],
   isFavoritesLoaded: false,
 };
