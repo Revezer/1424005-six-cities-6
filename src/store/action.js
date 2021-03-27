@@ -6,6 +6,8 @@ export const ActionType = {
   SORT_OFFERS: `main/sortOffers`,
   SELECTED_OFFER: `main/cart-component`,
   LOAD_FAVORITES: `favorites-screen`,
+  LOAD_USER_INFO: `main`,
+  LOAD_COMING_OFFERS: `property-screen`,
 };
 
 export const citySelection = (city) => ({
@@ -40,5 +42,15 @@ export const selectedOffer = (idOffer) => ({
 
 export const loadFavorite = (offers) => ({
   type: ActionType.LOAD_FAVORITES,
+  payload: offers
+});
+
+export const userInfo = (user) => ({
+  type: ActionType.LOAD_USER_INFO,
+  payload: user
+});
+
+export const loadComingOffers = (offers) => ({
+  type: ActionType.LOAD_COMING_OFFERS,
   payload: offers
 });

@@ -5,11 +5,13 @@ import LoadingScreen from './loading-screen/loadging-screen';
 import {connect} from 'react-redux';
 import {fetchOffers} from '../store/api-action';
 import PropTypes from 'prop-types';
-import {getDataLoaded} from '../store/data/selectors';
+import {getDataLoaded, getUserInfo} from '../store/data/selectors';
 import {Link} from 'react-router-dom';
+import {getAuthorization} from '../store/user/selectors';
+import {AuthorizationStatus} from '../const';
 
 const Main = (props) => {
-  const {isDataLoaded, onLoadData} = props;
+  const {isDataLoaded, onLoadData, authorization, userInfo} = props;
 
   useEffect(() => {
     if (!isDataLoaded) {
@@ -22,6 +24,14 @@ const Main = (props) => {
       <LoadingScreen />
     );
   }
+
+  const userVerification = () => {
+    if (authorization === AuthorizationStatus.AUTH) {
+      return <span className="header__user-name user__name">{userInfo.email}</span>;
+    } else {
+      return <span className="header__user-name user__name">Sign In</span>;
+    }
+  };
 
   return (
     <div className="page page--gray page--main">
@@ -39,7 +49,9 @@ const Main = (props) => {
                   <Link className="header__nav-link header__nav-link--profile" to="/favorites">
                     <div className="header__avatar-wrapper user__avatar-wrapper">
                     </div>
-                    <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
+                    {
+                      userVerification()
+                    }
                   </Link>
                 </li>
               </ul>
@@ -61,10 +73,14 @@ const Main = (props) => {
 Main.propTypes = {
   isDataLoaded: PropTypes.bool.isRequired,
   onLoadData: PropTypes.func.isRequired,
+  userInfo: PropTypes.object.isRequired,
+  authorization: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   isDataLoaded: getDataLoaded(state),
+  userInfo: getUserInfo(state),
+  authorization: getAuthorization(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -18,10 +18,10 @@ const Map = (props) => {
   useEffect(() => {
     const map = leaflet.map(mapRef.current, {
       center: {
-        lat: city.latitude,
-        lon: city.longitude
+        lat: points[0].city.location.latitude,
+        lon: points[0].city.location.longitude
       },
-      zoom: city.zoom
+      zoom: points[0].city.location.zoom
     });
 
     leaflet

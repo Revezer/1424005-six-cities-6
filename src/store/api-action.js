@@ -1,4 +1,4 @@
-import {loadOffers, requireAuthorization, loadComments, loadFavorite} from "./action";
+import {loadOffers, requireAuthorization, loadComments, loadFavorite, userInfo, loadComingOffers} from "./action";
 import {AuthorizationStatus} from "../const";
 
 export const fetchOffers = () => (dispatch, _getState, api) => (
@@ -8,6 +8,7 @@ export const fetchOffers = () => (dispatch, _getState, api) => (
 
 export const checkAuth = () => (dispatch, _getState, api) => (
   api.get(`/login`)
+    .then(({data}) => dispatch(userInfo(data)))
     .then(() => dispatch(requireAuthorization(AuthorizationStatus.AUTH)))
     .catch(() => {})
 );
@@ -30,6 +31,11 @@ export const addReview = ({id, comment, rating}) => (dispatch, _getState, api) =
 export const favoriteLoad = () => (dispatch, _getState, api) => (
   api.get(`/favorite`)
     .then(({data}) => dispatch(loadFavorite(data)))
+);
+
+export const fetchComingOffers = (id) => (dispatch, _getState, api) => (
+  api.get(`/hotels/${id}/nearby`)
+  .then(({data}) => dispatch(loadComingOffers(data)))
 );
 
 export const changeStatus = (id, status) => (dispatch, _getState, api) => (

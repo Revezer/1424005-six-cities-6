@@ -22,6 +22,9 @@ export const getSortType = (state) => state[NameSpace.DATA].sortType;
 export const getSelectedOffer = (state) => state[NameSpace.DATA].selectedOffer;
 export const getFavoritesLoaded = (state) => state[NameSpace.DATA].isFavoritesLoaded;
 export const getFavorites = (state) => state[NameSpace.DATA].favorites;
+export const getUserInfo = (state) => state[NameSpace.DATA].user;
+export const getComingOffers = (state) => state[NameSpace.DATA].comingOffers;
+export const getCommingOffersLoaded = (state) => state[NameSpace.DATA].isCommingOffersLoaded;
 
 export const getCityOffers = createSelector(
     [getOffers, getCity],

@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import PropTypes from 'prop-types';
 import {connect, useSelector} from 'react-redux';
-import {getFavoritesLoaded, getFavorites, getOffersFavorytesCity} from '../store/data/selectors';
+import {getFavoritesLoaded, getFavorites, getOffersFavorytesCity, getUserInfo} from '../store/data/selectors';
 import {favoriteLoad} from '../store/api-action';
 import LoadingScreen from './loading-screen/loadging-screen';
 import FavoritesOffersCityComponent from './favorites-offers-city';
@@ -9,7 +9,7 @@ import FavoritesOffersCityComponent from './favorites-offers-city';
 const CITIES = [`Paris`, `Cologne`, `Brussels`, `Amsterdam`, `Hamburg`, `Dusseldorf`];
 
 const Favorites = (props) => {
-  const {offers, isFavoritesLoaded, onLoadFavorites} = props;
+  const {offers, isFavoritesLoaded, onLoadFavorites, userInfo} = props;
 
   const offersFavorytesCity = CITIES.map((city) => <FavoritesOffersCityComponent key={city} offersCity={useSelector(getOffersFavorytesCity(city))} nameCity={city} />);
 
@@ -42,7 +42,7 @@ const Favorites = (props) => {
                     <a className="header__nav-link header__nav-link--profile" href="#">
                       <div className="header__avatar-wrapper user__avatar-wrapper">
                       </div>
-                      <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
+                      <span className="header__user-name user__name">{userInfo.email}</span>
                     </a>
                   </li>
                 </ul>
@@ -85,7 +85,7 @@ const Favorites = (props) => {
                     <a className="header__nav-link header__nav-link--profile" href="#">
                       <div className="header__avatar-wrapper user__avatar-wrapper">
                       </div>
-                      <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
+                      <span className="header__user-name user__name">{userInfo.email}</span>
                     </a>
                   </li>
                 </ul>
@@ -117,11 +117,13 @@ const Favorites = (props) => {
 
 Favorites.propTypes = {
   offers: PropTypes.array.isRequired,
+  userInfo: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   isFavoritesLoaded: getFavoritesLoaded(state),
   offers: getFavorites(state),
+  userInfo: getUserInfo(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({

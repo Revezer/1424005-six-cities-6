@@ -4,14 +4,16 @@ import PropTypes from 'prop-types';
 import ReviewsComponent from './property-comments-component';
 import FormCommentComponent from './property-form-component';
 import {connect, useSelector} from 'react-redux';
-import {getCommentLoaded, getComments, getOffer} from '../store/data/selectors';
+import {getComingOffers, getCommentLoaded, getComments, getOffer, getCommingOffersLoaded, getUserInfo} from '../store/data/selectors';
 import {ONE_STARS_RATING} from '../const';
-import {commentsLoad} from '../store/api-action';
+import {commentsLoad, fetchComingOffers} from '../store/api-action';
 import LoadingScreen from './loading-screen/loadging-screen';
 import Map from './map/map';
+import {AuthorizationStatus} from '../const';
+import {getAuthorization} from '../store/user/selectors';
 
 const Property = (props) => {
-  const {isCommentsLoaded, onLoadComments, comments} = props;
+  const {isCommentsLoaded, onLoadComments, comments, authorization, userInfo, comingOffers, onLoadComingOffers, isComingOffersLoaded} = props;
   const {id} = useParams();
   const offer = useSelector(getOffer(id));
   const rating = offer.rating * ONE_STARS_RATING + `%`;
@@ -20,13 +22,26 @@ const Property = (props) => {
     if (!isCommentsLoaded) {
       onLoadComments(offer.id);
     }
-  }, [isCommentsLoaded]);
+    if (!isComingOffersLoaded) {
+      onLoadComingOffers(offer.id);
+    }
+  }, [isCommentsLoaded], [isComingOffersLoaded]);
 
   if (!isCommentsLoaded) {
     return (
       <LoadingScreen />
     );
   }
+
+  comingOffers.push(offer);
+
+  const userVerification = () => {
+    if (authorization === AuthorizationStatus.AUTH) {
+      return <span className="header__user-name user__name">{userInfo.email}</span>;
+    } else {
+      return <span className="header__user-name user__name">Sign In</span>;
+    }
+  };
 
   return (
     <div className="page">
@@ -44,7 +59,7 @@ const Property = (props) => {
                   <a className="header__nav-link header__nav-link--profile" href="#">
                     <div className="header__avatar-wrapper user__avatar-wrapper">
                     </div>
-                    <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
+                    {userVerification()}
                   </a>
                 </li>
               </ul>
@@ -141,7 +156,7 @@ const Property = (props) => {
             </div>
           </div>
           <section className="property__map map" >
-            <Map points={Array.of(offer)}/>
+            <Map points={comingOffers}/>
           </section>
         </section>
         <div className="container">
@@ -253,15 +268,25 @@ Property.propTypes = {
   isCommentsLoaded: PropTypes.bool.isRequired,
   onLoadComments: PropTypes.func.isRequired,
   comments: PropTypes.array.isRequired,
+  userInfo: PropTypes.object.isRequired,
+  authorization: PropTypes.string.isRequired,
+  comingOffers: PropTypes.array.isRequired,
+  onLoadComingOffers: PropTypes.func.isRequired,
+  isComingOffersLoaded: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   isCommentsLoaded: getCommentLoaded(state),
   comments: getComments(state),
+  userInfo: getUserInfo(state),
+  authorization: getAuthorization(state),
+  comingOffers: getComingOffers(state),
+  isComingOffersLoaded: getCommingOffersLoaded(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
   onLoadComments: (id) => dispatch(commentsLoad(id)),
+  onLoadComingOffers: (id) => dispatch(fetchComingOffers(id)),
 });
 
 export {Property};
