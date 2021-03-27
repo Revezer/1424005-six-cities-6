@@ -13,6 +13,9 @@ const state = {
   selectedOffer: `false`,
   favorites: [],
   isFavoritesLoaded: false,
+  user: {},
+  comingOffers: [],
+  isCommingOffersLoaded: false,
 };
 
 const api = createAPI(() => {});
@@ -45,6 +48,9 @@ describe(`Работа Редуктора data`, () => {
         selectedOffer: `false`,
         favorites: [],
         isFavoritesLoaded: false,
+        comingOffers: [],
+        isCommingOffersLoaded: false,
+        user: {},
       });
   });
   it(`Загрузка комментариев`, () => {
@@ -70,6 +76,9 @@ describe(`Работа Редуктора data`, () => {
         selectedOffer: `false`,
         favorites: [],
         isFavoritesLoaded: false,
+        comingOffers: [],
+        isCommingOffersLoaded: false,
+        user: {},
       });
   });
   it(`Тип сортировки`, () => {
@@ -88,6 +97,9 @@ describe(`Работа Редуктора data`, () => {
         selectedOffer: `false`,
         favorites: [],
         isFavoritesLoaded: false,
+        comingOffers: [],
+        isCommingOffersLoaded: false,
+        user: {},
       });
   });
   it(`id предложения`, () => {
@@ -106,6 +118,9 @@ describe(`Работа Редуктора data`, () => {
         selectedOffer: 1,
         favorites: [],
         isFavoritesLoaded: false,
+        comingOffers: [],
+        isCommingOffersLoaded: false,
+        user: {},
       });
   });
   it(`Загрузка избранных предложений`, () => {
@@ -131,6 +146,9 @@ describe(`Работа Редуктора data`, () => {
         selectedOffer: `false`,
         favorites: [{id: 5, city: `Paris`}, {id: 2, city: `Paris`}],
         isFavoritesLoaded: true,
+        comingOffers: [],
+        isCommingOffersLoaded: false,
+        user: {},
       });
   });
 });
