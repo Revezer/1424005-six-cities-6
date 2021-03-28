@@ -9,6 +9,9 @@ const initialState = {
   selectedOffer: `false`,
   favorites: [],
   isFavoritesLoaded: false,
+  user: {},
+  comingOffers: [],
+  isCommingOffersLoaded: false,
 };
 
 const data = (state = initialState, action) => {
@@ -40,6 +43,17 @@ const data = (state = initialState, action) => {
         ...state,
         favorites: action.payload,
         isFavoritesLoaded: true,
+      };
+    case ActionType.LOAD_USER_INFO:
+      return {
+        ...state,
+        user: action.payload
+      };
+    case ActionType.LOAD_COMING_OFFERS:
+      return {
+        ...state,
+        comingOffers: action.payload,
+        isCommingOffersLoaded: true,
       };
   }
   return state;

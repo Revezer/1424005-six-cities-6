@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import CartComponent from './cart-component';
 import Map from './map/map';
 import {connect} from 'react-redux';
-import {getOffersSort, getOffers} from '../store/data/selectors';
+import {getOffersSort, getOffers, getSortType} from '../store/data/selectors';
 import {getCity} from '../store/increment-city/selectors';
 import SortOffersComponent from './sort-offers-component';
 import MainNoOffersComponent from './main-no-offers';
 
 const ListOffers = (props) => {
-  const {offers, points, city} = props;
+  const {offers, points, city, sortType} = props;
 
   if (offers.length === 0) {
     return (
@@ -27,7 +27,7 @@ const ListOffers = (props) => {
           <form className="places__sorting" action="#" method="get">
             <span className="places__sorting-caption">Sort by</span>
             <span className="places__sorting-type" tabIndex={0}>
-                  Popular
+              {sortType}
               <svg className="places__sorting-arrow" width={7} height={4}>
                 <use xlinkHref="#icon-arrow-select" />
               </svg>
@@ -54,6 +54,7 @@ ListOffers.propTypes = {
   offers: PropTypes.array.isRequired,
   points: PropTypes.array.isRequired,
   city: PropTypes.string.isRequired,
+  sortType: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -62,6 +63,7 @@ const mapStateToProps = (state) => ({
     offer.city.name === getCity(state)
   )).map((offer) => offer),
   city: getCity(state),
+  sortType: getSortType(state),
 });
 
 export {ListOffers};

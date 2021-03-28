@@ -5,9 +5,11 @@ import {ONE_STARS_RATING} from '../const';
 import {connect} from 'react-redux';
 import {selectedOffer} from '../store/action';
 import {changeStatus} from '../store/api-action';
+import {getAuthorization} from '../store/user/selectors';
+import {AuthorizationStatus} from '../const';
 
 const Cart = (props) => {
-  const {offer, selectOffer, onChangeStatus} = props;
+  const {offer, selectOffer, onChangeStatus, authorization} = props;
   const [hover, setHover] = React.useState(false);
   const rating = offer.rating * ONE_STARS_RATING + `%`;
   const favorite = offer.is_favorite ? 0 : 1;
@@ -32,6 +34,27 @@ const Cart = (props) => {
 
   const activeButton = () => offer.is_favorite ? `place-card__bookmark-button place-card__bookmark-button--active button` : `place-card__bookmark-button button`;
 
+  const buttonFavorite = () => {
+    if (authorization === AuthorizationStatus.NO_AUTH) {
+      return <Link className={activeButton()} type="button" to="/login">
+        <svg className="place-card__bookmark-icon" width={18} height={19}>
+          <use xlinkHref="#icon-bookmark" />
+        </svg>
+        <span className="visually-hidden">In bookmarks</span>
+      </Link>;
+    } else {
+      return <button className={activeButton()} type="button"
+        onClick={() => {
+          changeStatusFavorite();
+        }}>
+        <svg className="place-card__bookmark-icon" width={18} height={19}>
+          <use xlinkHref="#icon-bookmark" />
+        </svg>
+        <span className="visually-hidden">In bookmarks</span>
+      </button>;
+    }
+  };
+
   return (
     <article className={classHover()} onMouseEnter={mouseEnter} onMouseLeave={mouseLeave}>
       <div className="cities__image-wrapper place-card__image-wrapper">
@@ -45,15 +68,7 @@ const Cart = (props) => {
             <b className="place-card__price-value">€{offer.price}</b>
             <span className="place-card__price-text">/&nbsp;night</span>
           </div>
-          <button className={activeButton()} type="button"
-            onClick={() => {
-              changeStatusFavorite();
-            }}>
-            <svg className="place-card__bookmark-icon" width={18} height={19}>
-              <use xlinkHref="#icon-bookmark" />
-            </svg>
-            <span className="visually-hidden">In bookmarks</span>
-          </button>
+          {buttonFavorite()}
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
@@ -74,7 +89,12 @@ Cart.propTypes = {
   offer: PropTypes.object.isRequired,
   selectOffer: PropTypes.func.isRequired,
   onChangeStatus: PropTypes.func.isRequired,
+  authorization: PropTypes.string.isRequired,
 };
+
+const mapStateToProps = (state) => ({
+  authorization: getAuthorization(state),
+});
 
 const mapDispatchToProps = (dispatch) => ({
   selectOffer(id) {
@@ -86,4 +106,4 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export {Cart};
-export default connect(null, mapDispatchToProps)(Cart);
+export default connect(mapStateToProps, mapDispatchToProps)(Cart);
